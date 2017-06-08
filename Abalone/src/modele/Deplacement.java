@@ -30,25 +30,37 @@ public class Deplacement {
 		}
 	}*/
 
-	public void move_left_1 (Pion p,Joueur j) 
+	public void move_left_1 (int x, int y, Joueur j, PlateauAbalone plateau) 
 	{
-		int x=p.getX();
-		j.modifiePion(p,x-2);
+		for (Pion p : j.getListePions()){
+			if (p.getX() == x && p.getY() == y){
+				p.modifieX(-2);
+			}
+		}
+		for (Pion p : plateau.getListeCasesVides()){
+			if (p.getX() == x && p.getY() == y){
+				p.modifieX(2);
+			}
+		}
+		
 	}
-
 	/*void move_right_1 (COORD p1,CASE T[11][21])
 	{
 		T[p1.x][p1.y+2]=T[p1.x][p1.y];
 		T[p1.x][p1.y]=0;
-	}
+	}*/
 
-	void move_up_left_1 (COORD p1,CASE T[11][21])
+	void move_up_left_1 (int x, int y, Joueur j)
 	{
-		T[p1.x-1][p1.y-1]=T[p1.x][p1.y];
-		T[p1.x][p1.y]=0;
+		for (Pion p : j.getListePions()){
+			if (p.getX() == x && p.getY() == y){
+				p.modifieX(-1);
+				p.modifieY(-1);
+			}
+		}
 	}
 
-	void move_up_right_1 (COORD p1,CASE T[11][21])	
+	/*void move_up_right_1 (COORD p1,CASE T[11][21])	
 	{			      
 		T[p1.x-1][p1.y+1]=T[p1.x][p1.y];
 		T[p1.x][p1.y]=0;

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class PlateauAbalone {
 	private int nbjoueurs;
-	private ArrayList<Pion> casesvides;
+	//private T[x][y]
 	
 	public PlateauAbalone(){
 		this.nbjoueurs = 2;
@@ -65,5 +65,9 @@ public class PlateauAbalone {
 			
 			
 		}
-	}	
+	}
+	
+	public ArrayList<Pion> getListeCasesVides(){
+		return casesvides;
+	}
 }
