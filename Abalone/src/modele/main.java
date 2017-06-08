@@ -6,15 +6,11 @@ public class main {
 
 	public static void main(String[] args) {
 		PlateauAbalone jeu = new PlateauAbalone();
-		
-		Joueur j1 = new Joueur("Zoe", Color.black);
-		Joueur j2 = new Joueur("Adja", Color.white);
-		jeu.affichePlateau(j1,j2);
-		Pion p = new Pion(7,3,j1);
-		Deplacement dep = new Deplacement(p,Direction.LEFT,j1);
-		System.out.println();
-		jeu.affichePlateau(j1,j2);
-		System.out.println(j1.getListePions());
+		Deplacement dep = new Deplacement();
+		Pion p = new Pion(3,8);
+		jeu.affichePlateau();
+		dep.move_left_1(p,jeu);
+		jeu.affichePlateau();
 		
 	}
 

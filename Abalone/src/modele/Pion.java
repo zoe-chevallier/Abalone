@@ -1,7 +1,7 @@
 package modele;
 
 public class Pion {
-	private int x; //Corresponds aux coordonées
+	private int x; //Corresponds aux coordonnées
 	private int y;
 
 	
@@ -26,10 +26,4 @@ public class Pion {
 		this.y = y;
 	}
 	
-	public void modifieX(int valeur){
-		x+=valeur;
-	}
-	public void modifieY(int valeur){
-		y+=valeur;
-	}
 }

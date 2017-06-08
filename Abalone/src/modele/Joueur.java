@@ -39,22 +39,5 @@ public class Joueur {
 		this.couleur=couleur;
 	}
 	
-	public ArrayList<Pion> getListePions(){
-		return listePions;
-	}
 	
-	public void afficheListe(){
-		for (Pion p : listePions)
-			System.out.println(p.toString());
-	}
-	
-	public void modifiePion(Pion p, int modif){
-		int i = listePions.indexOf(p);
-		System.out.println(i);
-		/*listePions.remove(i);
-		p.setX(modif);
-		listePions.add(p);*/
-		
-		
-	}
 }
