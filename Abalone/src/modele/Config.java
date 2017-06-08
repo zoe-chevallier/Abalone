@@ -8,5 +8,13 @@ public class Config {
 		UPRIGHT,
 		DOWNLEFT,
 		DOWNRIGHT
-	}		
+	}
+	
+	public enum Possible {
+		IMPOSSIBLE,
+		LINE,
+		DR,
+		DL
+	}
+		
 }

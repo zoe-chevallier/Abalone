@@ -4,7 +4,6 @@ public class Pion {
 	private int x; //Corresponds aux coordonnées
 	private int y;
 
-	
 	public Pion(int x,int y){
 		this.x=x;
 		this.y=y;
