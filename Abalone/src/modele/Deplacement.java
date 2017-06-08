@@ -1,4 +1,6 @@
 package modele;
+import java.awt.Color;
+
 import modele.Config.Direction;
 import modele.Config.Possible;
 
@@ -6,7 +8,6 @@ public class Deplacement {
 	
 	public Possible move_possible_1(Pion p1, Direction dir,PlateauAbalone jeu)
 	{
-
 		switch(dir)
 		{
 			case LEFT : return move_possible_left_1(p1,jeu); 
@@ -17,8 +18,6 @@ public class Deplacement {
 			case DOWNRIGHT : return move_possible_down_right_1(p1,jeu); 
 			default : return Possible.IMPOSSIBLE;
 		}
-
-			
 	}
 	public Possible move_possible_left_1(Pion p1,PlateauAbalone jeu)
 	{
@@ -110,23 +109,23 @@ public class Deplacement {
 		jeu.getPlateau()[p1.getX()+1][p1.getY()+1]=jeu.getPlateau()[p1.getX()][p1.getY()];
 		jeu.getPlateau()[p1.getX()][p1.getY()]=0;
 	}
-	public Possible move_possible_2(Pion p1,Pion p2, Direction dir,PlateauAbalone jeu)
+	public Possible move_possible_2(Pion p1,Pion p2, Direction dir,PlateauAbalone jeu, Joueur j)
 	{
 
 		switch(dir)
 		{
-			case LEFT : return move_possible_left_2(p1,p2,jeu); 
-			case RIGHT : return move_possible_right_2(p1,p2,jeu); 
-			case UPLEFT : return move_possible_up_left_2(p1,p2,jeu); 	
-			case UPRIGHT : return move_possible_up_right_2(p1,p2,jeu); 
-			case DOWNLEFT : return move_possible_down_left_2(p1,p2,jeu); 
-			case DOWNRIGHT : return move_possible_down_right_2(p1,p2,jeu); 
+			case LEFT : return move_possible_left_2(p1,p2,jeu,j); 
+			case RIGHT : return move_possible_right_2(p1,p2,jeu,j); 
+			case UPLEFT : return move_possible_up_left_2(p1,p2,jeu,j); 	
+			case UPRIGHT : return move_possible_up_right_2(p1,p2,jeu,j); 
+			case DOWNLEFT : return move_possible_down_left_2(p1,p2,jeu,j); 
+			case DOWNRIGHT : return move_possible_down_right_2(p1,p2,jeu,j); 
 			default : return Possible.IMPOSSIBLE;
 		}
 
 			
 	}
-	public Possible move_possible_left_2(Pion p1,Pion p2,PlateauAbalone jeu)
+	public Possible move_possible_left_2(Pion p1,Pion p2,PlateauAbalone jeu,Joueur j)
 	{
 		if (p1.getY() < p2.getY()){
 			int x=p1.getX();
@@ -138,7 +137,7 @@ public class Deplacement {
 		}
 		if (p1.getX()==p2.getX()) //Les pions sont sur la même lignes, on verrifie donc s'il y a un sumito ou si la case à gauche est vide.
 		{
-			if ((jeu.getPlateau()[p1.getX()][p2.getY()-2]==0) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p1.getX()][p2.getY()-2]==2))||(/*(player==player2) && */(jeu.getPlateau()[p1.getX()][p2.getY()-2]==1))) && ((jeu.getPlateau()[p1.getX()][p2.getY()-4]==0) || (jeu.getPlateau()[p1.getX()][p2.getY()-4]==3))) ) return Possible.LINE;
+			if ((jeu.getPlateau()[p1.getX()][p2.getY()-2]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p1.getX()][p2.getY()-2]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p1.getX()][p2.getY()-2]==1))) && ((jeu.getPlateau()[p1.getX()][p2.getY()-4]==0) || (jeu.getPlateau()[p1.getX()][p2.getY()-4]==3))) ) return Possible.LINE;
 			else return Possible.IMPOSSIBLE;
 		}
 		else if (((p1.getX()==p2.getX()-1) && (p1.getY()==p2.getY()+1)) || ((p1.getX()==p2.getX()+1) && (p1.getY()==p2.getY()-1))) //Les pions sont en diagonales gauches, on verrifie donc que les 3 cases à gauche sont vides.
@@ -154,7 +153,7 @@ public class Deplacement {
 		else return Possible.IMPOSSIBLE;
 	}
 
-	public Possible move_possible_right_2(Pion p1,Pion p2,PlateauAbalone jeu)
+	public Possible move_possible_right_2(Pion p1,Pion p2,PlateauAbalone jeu,Joueur j)
 	{
 		if (p1.getY() > p2.getY()){
 			int x=p1.getX();
@@ -166,7 +165,7 @@ public class Deplacement {
 		}
 		if (p1.getX()==p2.getX()) //Les pions sont sur la même lignes, on verrifie donc s'il y a un sumito ou si la case à gauche est vide.
 		{
-			if ((jeu.getPlateau()[p1.getX()][p2.getY()+2]==0) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p1.getX()][p2.getY()+2]==2))||(/*(player==player2) && */(jeu.getPlateau()[p1.getX()][p2.getY()+2]==1))) && ((jeu.getPlateau()[p1.getX()][p2.getY()+4]==0) || (jeu.getPlateau()[p1.getX()][p2.getY()+4]==3))) ) return Possible.LINE;
+			if ((jeu.getPlateau()[p1.getX()][p2.getY()+2]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p1.getX()][p2.getY()+2]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p1.getX()][p2.getY()+2]==1))) && ((jeu.getPlateau()[p1.getX()][p2.getY()+4]==0) || (jeu.getPlateau()[p1.getX()][p2.getY()+4]==3))) ) return Possible.LINE;
 			else return Possible.IMPOSSIBLE;
 		}
 		else if (((p1.getX()==p2.getX()-1) && (p1.getY()==p2.getY()+1)) || ((p1.getX()==p2.getX()+1) && (p1.getY()==p2.getY()-1))) //Les pions sont en diagonales gauches, on verrifie donc que les 3 cases à gauche sont vides.
@@ -182,7 +181,7 @@ public class Deplacement {
 		else return Possible.IMPOSSIBLE;
 	}
 
-	public Possible move_possible_up_left_2( Pion p1, Pion p2,PlateauAbalone jeu)
+	public Possible move_possible_up_left_2( Pion p1, Pion p2,PlateauAbalone jeu,Joueur j)
 	{
 		if (p1.getY() > p2.getY()){
 			int x=p1.getX();
@@ -204,13 +203,13 @@ public class Deplacement {
 		}
 		else if ( (p1.getX()==p2.getX()+1) && (p1.getY()==p2.getY()+1) ) //Les pions sont en diagonales droites ( de haut en bas ).
 		{
-			if ( (jeu.getPlateau()[p2.getX()-1][p2.getY()-1]==0) || (((/*(player==player1) && */(jeu.getPlateau()[p2.getX()-1][p2.getY()-1]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p2.getX()-1][p2.getY()-1]==1))) && ((jeu.getPlateau()[p2.getX()-2][p2.getY()-2]==0) || (jeu.getPlateau()[p2.getX()-2][p2.getY()-2]==3))) ) return Possible.DR;
+			if ( (jeu.getPlateau()[p2.getX()-1][p2.getY()-1]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p2.getX()-1][p2.getY()-1]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p2.getX()-1][p2.getY()-1]==1))) && ((jeu.getPlateau()[p2.getX()-2][p2.getY()-2]==0) || (jeu.getPlateau()[p2.getX()-2][p2.getY()-2]==3))) ) return Possible.DR;
 			else return Possible.IMPOSSIBLE;
 		}
 		else return Possible.IMPOSSIBLE;
 	}
 
-	public Possible move_possible_up_right_2( Pion p1, Pion p2,PlateauAbalone jeu)
+	public Possible move_possible_up_right_2( Pion p1, Pion p2,PlateauAbalone jeu, Joueur j)
 	{
 		if (p1.getY() < p2.getY()){
 			int x=p1.getX();
@@ -232,13 +231,13 @@ public class Deplacement {
 		}
 		else if ((p1.getX()==p2.getX()+1) && (p1.getY()==p2.getY()-1) ) //Les pions sont en diagonales gauches ( de haut en bas ).
 		{
-			if ( (jeu.getPlateau()[p2.getX()-1][p2.getY()+1]==0) || (((/*(player==player1) && */(jeu.getPlateau()[p2.getX()-1][p2.getY()+1]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p2.getX()-1][p2.getY()+1]==1))) && ((jeu.getPlateau()[p2.getX()-2][p2.getY()+2]==0) || (jeu.getPlateau()[p2.getX()-2][p2.getY()+2]==3))) ) return Possible.DL;
+			if ( (jeu.getPlateau()[p2.getX()-1][p2.getY()+1]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p2.getX()-1][p2.getY()+1]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p2.getX()-1][p2.getY()+1]==1))) && ((jeu.getPlateau()[p2.getX()-2][p2.getY()+2]==0) || (jeu.getPlateau()[p2.getX()-2][p2.getY()+2]==3))) ) return Possible.DL;
 			else return Possible.IMPOSSIBLE;
 		}
 		else return Possible.IMPOSSIBLE;
 	}
 
-	public Possible move_possible_down_left_2( Pion p1, Pion p2,PlateauAbalone jeu)
+	public Possible move_possible_down_left_2( Pion p1, Pion p2,PlateauAbalone jeu,Joueur j)
 	{
 		if (p1.getY() < p2.getY()){
 			int x=p1.getX();
@@ -260,13 +259,13 @@ public class Deplacement {
 		}
 		else if ( (p1.getX()==p2.getX()-1) && (p1.getY()==p2.getY()+1) ) //Les pions sont en diagonales gauches ( de haut en bas ).
 		{
-			if ((jeu.getPlateau()[p2.getX()+1][p2.getY()-1]==0) || (((/*(player==player1) && */(jeu.getPlateau()[p2.getX()+1][p2.getY()-1]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p2.getX()+1][p2.getY()-1]==1))) && ((jeu.getPlateau()[p2.getX()+2][p2.getY()-2]==0) || (jeu.getPlateau()[p2.getX()+2][p2.getY()-2]==3))) ) return Possible.DL;
+			if ((jeu.getPlateau()[p2.getX()+1][p2.getY()-1]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p2.getX()+1][p2.getY()-1]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p2.getX()+1][p2.getY()-1]==1))) && ((jeu.getPlateau()[p2.getX()+2][p2.getY()-2]==0) || (jeu.getPlateau()[p2.getX()+2][p2.getY()-2]==3))) ) return Possible.DL;
 			else return Possible.IMPOSSIBLE;
 		}
 		else return Possible.IMPOSSIBLE;
 	}
 
-	public Possible move_possible_down_right_2( Pion p1, Pion p2,PlateauAbalone jeu)
+	public Possible move_possible_down_right_2( Pion p1, Pion p2,PlateauAbalone jeu,Joueur j)
 	{
 		if (p1.getY() > p2.getY()){
 			int x=p1.getX();
@@ -288,33 +287,33 @@ public class Deplacement {
 		}
 		else if ( (p1.getX()==p2.getX()-1) && (p1.getY()==p2.getY()-1) ) //Les pions sont en diagonales droites ( de haut en bas ).
 		{
-			if ((jeu.getPlateau()[p2.getX()+1][p2.getY()+1]==0) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p2.getX()+1][p2.getY()+1]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p2.getX()+1][p2.getY()+1]==1))) && ((jeu.getPlateau()[p2.getX()+2][p2.getY()+2]==0) || (jeu.getPlateau()[p2.getX()+2][p2.getY()+2]==3))) ) return Possible.DR;
+			if ((jeu.getPlateau()[p2.getX()+1][p2.getY()+1]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p2.getX()+1][p2.getY()+1]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p2.getX()+1][p2.getY()+1]==1))) && ((jeu.getPlateau()[p2.getX()+2][p2.getY()+2]==0) || (jeu.getPlateau()[p2.getX()+2][p2.getY()+2]==3))) ) return Possible.DR;
 			else return Possible.IMPOSSIBLE;
 		}
 		else return Possible.IMPOSSIBLE;
 	}
 	
-	public void move_2(Pion p1, Pion p2, Direction dir,PlateauAbalone jeu, Possible alignment)
+	public void move_2(Pion p1, Pion p2, Direction dir,PlateauAbalone jeu, Possible alignment, Joueur j)
 	{
 		switch(dir)
 		{
-			case LEFT : move_left_2( p1, p2,jeu, alignment); 
+			case LEFT : move_left_2( p1, p2,jeu, alignment,j); 
 				break;
-			case RIGHT : move_right_2( p1, p2,jeu, alignment); 
+			case RIGHT : move_right_2( p1, p2,jeu, alignment,j); 
 				break;
-			case UPLEFT : move_up_left_2(p1, p2,jeu, alignment); 	
+			case UPLEFT : move_up_left_2(p1, p2,jeu, alignment,j); 	
 				break;
-			case UPRIGHT : move_up_right_2( p1, p2,jeu, alignment); 
+			case UPRIGHT : move_up_right_2( p1, p2,jeu, alignment,j); 
 				break;
-			case DOWNLEFT : move_down_left_2( p1, p2,jeu, alignment); 
+			case DOWNLEFT : move_down_left_2( p1, p2,jeu, alignment,j); 
 				break;
-			case DOWNRIGHT : move_down_right_2( p1, p2,jeu, alignment); 
+			case DOWNRIGHT : move_down_right_2( p1, p2,jeu, alignment,j); 
 				break;
 			default : break;
 		}
 	}
 	
-	public void move_left_2 (Pion p1,Pion p2,PlateauAbalone jeu,Possible al)
+	public void move_left_2 (Pion p1,Pion p2,PlateauAbalone jeu,Possible al,Joueur j)
 	{
 		if (al != Possible.LINE)
 		{
@@ -340,17 +339,15 @@ public class Deplacement {
 				{
 					jeu.getPlateau()[p1.getX()][p1.getY()-4]=jeu.getPlateau()[p1.getX()][p1.getY()-2];
 				}
-				/*else if(!butter)
-				{
-					score[current_player-1]++;
-					display_pawn_eject(current_player, score);
-				}*/
+				else {
+				j.setScore(j.getScore()+1);
+				}
 			}
 			jeu.getPlateau()[p1.getX()][p1.getY()-2]=jeu.getPlateau()[p2.getX()][p2.getY()];
 			jeu.getPlateau()[p2.getX()][p2.getY()]=0;
 		}
 	}
-	public void move_right_2 (Pion p1,Pion p2,PlateauAbalone jeu,Possible alignment)
+	public void move_right_2 (Pion p1,Pion p2,PlateauAbalone jeu,Possible alignment,Joueur j)
 	{	
 		int x,y;
 		if (alignment != Possible.LINE)
@@ -376,18 +373,16 @@ public class Deplacement {
 				{
 					jeu.getPlateau()[p2.getX()][p2.getY()+4]=jeu.getPlateau()[p2.getX()][p2.getY()+2];
 				}
-				/*else if(!butter)
-				{
-					score[current_player-1]++;
-					display_pawn_eject(current_player, score);
-				}*/
+				else {
+					j.setScore(j.getScore()+1);
+				}
 			}
 			jeu.getPlateau()[p2.getX()][p2.getY()+2]=jeu.getPlateau()[p1.getX()][p1.getY()];
 			jeu.getPlateau()[p1.getX()][p1.getY()]=0;
 		}
 	}
 	
-	public void move_up_left_2 (Pion p1, Pion p2,PlateauAbalone jeu,Possible alignment)
+	public void move_up_left_2 (Pion p1, Pion p2,PlateauAbalone jeu,Possible alignment,Joueur j)
 	{
 		int x,y;
 		if (alignment == Possible.LINE || alignment==Possible.DL) //Cas où les pions sont sur la même ligne, ou deplacement simple (pas sumito)
@@ -414,18 +409,16 @@ public class Deplacement {
 				{
 					jeu.getPlateau()[p1.getX()-2][p1.getY()-2]=jeu.getPlateau()[p1.getX()-1][p1.getY()-1];
 				}
-				/*else if(!butter)
-				{
-					score[current_player-1]++;
-					display_pawn_eject(current_player, score);
-				}*/
+				else {
+					j.setScore(j.getScore()+1);
+				}
 			}
 			jeu.getPlateau()[p1.getX()-1][p1.getY()-1]=jeu.getPlateau()[p2.getX()][p2.getY()];
 			jeu.getPlateau()[p2.getX()][p2.getY()]=0;
 		}	
 	}
 	
-	public void move_up_right_2 (Pion p1, Pion p2,PlateauAbalone jeu,Possible alignment)
+	public void move_up_right_2 (Pion p1, Pion p2,PlateauAbalone jeu,Possible alignment,Joueur j)
 	{
 		int x,y;
 		if (alignment==Possible.LINE || alignment == Possible.DR) 
@@ -452,18 +445,17 @@ public class Deplacement {
 				{
 					jeu.getPlateau()[p2.getX()-2][p2.getY()+2]=jeu.getPlateau()[p2.getX()-1][p2.getY()+1];
 				}
-				/*else if(!butter)
-				{
-					score[current_player-1]++;
-					display_pawn_eject(current_player, score);
-				}*/
+				else {
+					j.setScore(j.getScore()+1);
+				}
+				
 			}
 			jeu.getPlateau()[p2.getX()-1][p2.getY()+1]=jeu.getPlateau()[p1.getX()][p1.getY()];
 			jeu.getPlateau()[p1.getX()][p1.getY()]=0;
 		}	
 	}
 	
-	public void move_down_left_2 (Pion p1, Pion p2,PlateauAbalone jeu, Possible alignment)
+	public void move_down_left_2 (Pion p1, Pion p2,PlateauAbalone jeu, Possible alignment,Joueur j)
 	{
 		int x,y;
 		if (alignment==Possible.LINE || alignment==Possible.DR) //Cas où on les pions se trouvent sur la même ligne,ou en diagonale (pas sumito)
@@ -487,18 +479,16 @@ public class Deplacement {
 				{
 					jeu.getPlateau()[p1.getX()+2][p1.getY()-2]=jeu.getPlateau()[p1.getX()+1][p1.getY()-1];
 				}
-				/*else if(!butter)
-				{
-					score[current_player-1]++;
-					display_pawn_eject(current_player, score);
-				}*/
-			}
+				else{
+					j.setScore(j.getScore()+1);
+				}
 			jeu.getPlateau()[p1.getX()+1][p1.getY()-1]=jeu.getPlateau()[p2.getX()][p2.getY()];
 			jeu.getPlateau()[p2.getX()][p2.getY()]=0;
+			}
 		}	
 	}
 
-	public void move_down_right_2 (Pion p1, Pion p2,PlateauAbalone jeu,Possible alignment)
+	public void move_down_right_2 (Pion p1, Pion p2,PlateauAbalone jeu,Possible alignment,Joueur j)
 	{
 		int x,y;
 		if (alignment==Possible.LINE || alignment==Possible.DL) 
@@ -525,34 +515,33 @@ public class Deplacement {
 				{
 					jeu.getPlateau()[p2.getX()+2][p2.getY()+2]=jeu.getPlateau()[p2.getX()+1][p2.getY()+1];
 				}
-				/*else if(!butter)
+				else 
 				{
-					score[current_player-1]++;
-					display_pawn_eject(current_player, score);
-				}*/
+					j.setScore(j.getScore()+1);
+				}
 			}
 			jeu.getPlateau()[p2.getX()+1][p2.getY()+1]=jeu.getPlateau()[p1.getX()][p1.getY()];
 			jeu.getPlateau()[p1.getX()][p1.getY()]=0;
 		}	
 	}
 	
-	public Possible move_possible_3(Pion p1,Pion p2,Pion p3, Direction dir,PlateauAbalone jeu)
+	public Possible move_possible_3(Pion p1,Pion p2,Pion p3, Direction dir,PlateauAbalone jeu,Joueur j)
 	{
 
 		switch(dir)
 		{
-			case LEFT : return move_possible_left_3(p1,p2,p3,jeu); 
-			case RIGHT : return move_possible_right_3(p1,p2,p3,jeu); 
-			case UPLEFT : return move_possible_up_left_3(p1,p2,p3,jeu); 	
-			case UPRIGHT : return move_possible_up_right_3(p1,p2,p3,jeu); 
-			case DOWNLEFT : return move_possible_down_left_3(p1,p2,p3,jeu); 
-			case DOWNRIGHT : return move_possible_down_right_3(p1,p2,p3,jeu); 
+			case LEFT : return move_possible_left_3(p1,p2,p3,jeu,j); 
+			case RIGHT : return move_possible_right_3(p1,p2,p3,jeu,j); 
+			case UPLEFT : return move_possible_up_left_3(p1,p2,p3,jeu,j); 	
+			case UPRIGHT : return move_possible_up_right_3(p1,p2,p3,jeu,j); 
+			case DOWNLEFT : return move_possible_down_left_3(p1,p2,p3,jeu,j); 
+			case DOWNRIGHT : return move_possible_down_right_3(p1,p2,p3,jeu,j); 
 			default : return Possible.IMPOSSIBLE;
 		}
 
 			
 	}
-	public Possible move_possible_left_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu)
+	public Possible move_possible_left_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu,Joueur j)
 	{
 		int x,y;
 		if (p2.getY() < p3.getY()){
@@ -583,7 +572,7 @@ public class Deplacement {
 		}	
 		if ((p1.getX()==p2.getX()) && (p1.getX()==p3.getX())) //Les pions sont sur la même lignes, on verrifie donc s'il y a un sumito ou si la case à gauche est vide.
 		{
-			if ((jeu.getPlateau()[p1.getX()][p3.getY()-2]==0) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p1.getX()][p3.getY()-2]==2))||(/*(player==player2) && */(jeu.getPlateau()[p1.getX()][p3.getY()-2]==1))) && ((jeu.getPlateau()[p1.getX()][p3.getY()-4]==0) || (jeu.getPlateau()[p1.getX()][p3.getY()-4]==3))) || (((/*(player==player1) && */(jeu.getPlateau()[p1.getX()][p3.getY()-2]==2) && (jeu.getPlateau()[p1.getX()][p3.getY()-4]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p1.getX()][p3.getY()-2]==1) && (jeu.getPlateau()[p1.getX()][p3.getY()-4]==1))) && ((jeu.getPlateau()[p1.getX()][p3.getY()-6]==0) || (jeu.getPlateau()[p1.getX()][p3.getY()-6]==3)))) return Possible.LINE;
+			if ((jeu.getPlateau()[p1.getX()][p3.getY()-2]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p1.getX()][p3.getY()-2]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p1.getX()][p3.getY()-2]==1))) && ((jeu.getPlateau()[p1.getX()][p3.getY()-4]==0) || (jeu.getPlateau()[p1.getX()][p3.getY()-4]==3))) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p1.getX()][p3.getY()-2]==2) && (jeu.getPlateau()[p1.getX()][p3.getY()-4]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p1.getX()][p3.getY()-2]==1) && (jeu.getPlateau()[p1.getX()][p3.getY()-4]==1))) && ((jeu.getPlateau()[p1.getX()][p3.getY()-6]==0) || (jeu.getPlateau()[p1.getX()][p3.getY()-6]==3)))) return Possible.LINE;
 			else return Possible.IMPOSSIBLE;
 		}
 		else if (( (p1.getX()==p2.getX()-1) && (p1.getY()==p2.getY()+1) && (p1.getX()==p3.getX()-2) && (p1.getY()==p3.getY()+2) ) || ( (p1.getX()==p2.getX()+1) && (p1.getY()==p2.getY()-1) && (p1.getX()==p3.getX()+2) && (p1.getY()==p3.getY()-2) )) //Les pions sont en diagonales gauches, on verrifie donc que les 3 cases à gauche sont vides.
@@ -599,7 +588,7 @@ public class Deplacement {
 		else return Possible.IMPOSSIBLE;
 	}
 
-	public Possible move_possible_right_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu)
+	public Possible move_possible_right_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu,Joueur j)
 	{
 		int x,y;
 		if (p2.getY() > p3.getY()){
@@ -630,7 +619,7 @@ public class Deplacement {
 		}
 		if ((p1.getX()==p2.getX()) && (p1.getX()==p3.getX())) //Les pions sont sur la même lignes, on verrifie donc s'il y a un sumito ou si la case à gauche est vide.
 		{
-			if ((jeu.getPlateau()[p1.getX()][p3.getY()+2]==0) || (((/*(player==player1) && */(jeu.getPlateau()[p1.getX()][p3.getY()+2]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p1.getX()][p3.getY()+2]==1))) && ((jeu.getPlateau()[p1.getX()][p3.getY()+4]==0) || (jeu.getPlateau()[p1.getX()][p3.getY()+4]==3))) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p1.getX()][p3.getY()+2]==2) && (jeu.getPlateau()[p1.getX()][p3.getY()+4]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p1.getX()][p3.getY()+2]==1) && (jeu.getPlateau()[p1.getX()][p3.getY()+4]==1))) && ((jeu.getPlateau()[p1.getX()][p3.getY()+6]==0) || (jeu.getPlateau()[p1.getX()][p3.getY()+6]==3)))) return Possible.LINE;
+			if ((jeu.getPlateau()[p1.getX()][p3.getY()+2]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p1.getX()][p3.getY()+2]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p1.getX()][p3.getY()+2]==1))) && ((jeu.getPlateau()[p1.getX()][p3.getY()+4]==0) || (jeu.getPlateau()[p1.getX()][p3.getY()+4]==3))) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p1.getX()][p3.getY()+2]==2) && (jeu.getPlateau()[p1.getX()][p3.getY()+4]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p1.getX()][p3.getY()+2]==1) && (jeu.getPlateau()[p1.getX()][p3.getY()+4]==1))) && ((jeu.getPlateau()[p1.getX()][p3.getY()+6]==0) || (jeu.getPlateau()[p1.getX()][p3.getY()+6]==3)))) return Possible.LINE;
 			else return Possible.IMPOSSIBLE;
 		}
 		else if (( (p1.getX()==p2.getX()-1) && (p1.getY()==p2.getY()+1) && (p1.getX()==p3.getX()-2) && (p1.getY()==p3.getY()+2) ) || ( (p1.getX()==p2.getX()+1) && (p1.getY()==p2.getY()-1) && (p1.getX()==p3.getX()+2) && (p1.getY()==p3.getY()-2) )) //Les pions sont en diagonales gauches, on verrifie donc que les 3 cases à gauche sont vides.
@@ -646,7 +635,7 @@ public class Deplacement {
 		else return Possible.IMPOSSIBLE;
 	}
 
-	public Possible move_possible_up_left_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu)
+	public Possible move_possible_up_left_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu,Joueur j)
 	{
 		int x,y;
 		if (p2.getY() < p3.getY()){
@@ -687,13 +676,13 @@ public class Deplacement {
 		}
 		else if ((p1.getX()==p2.getX()+1) && (p1.getY()==p2.getY()+1) && (p1.getX()==p3.getX()+2) && (p1.getY()==p3.getY()+2)) //Les pions sont en diagonales droites ( de haut en bas ).
 		{
-			if ((jeu.getPlateau()[p3.getX()-1][p3.getY()-1]==0) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p3.getX()-1][p3.getY()-1]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p3.getX()-1][p3.getY()-1]==1))) && ((jeu.getPlateau()[p3.getX()-2][p3.getY()-2]==0) || (jeu.getPlateau()[p3.getX()-2][p3.getY()-2]==3))) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p3.getX()-1][p3.getY()-1]==2) && (jeu.getPlateau()[p3.getX()-2][p3.getY()-2]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p3.getX()-1][p3.getY()-1]==1) && (jeu.getPlateau()[p3.getX()-2][p3.getY()-2]==1))) && ((jeu.getPlateau()[p3.getX()-3][p3.getY()-3]==0) || (jeu.getPlateau()[p3.getX()-3][p3.getY()-3]==3)))) return Possible.DR;
+			if ((jeu.getPlateau()[p3.getX()-1][p3.getY()-1]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p3.getX()-1][p3.getY()-1]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p3.getX()-1][p3.getY()-1]==1))) && ((jeu.getPlateau()[p3.getX()-2][p3.getY()-2]==0) || (jeu.getPlateau()[p3.getX()-2][p3.getY()-2]==3))) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p3.getX()-1][p3.getY()-1]==2) && (jeu.getPlateau()[p3.getX()-2][p3.getY()-2]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p3.getX()-1][p3.getY()-1]==1) && (jeu.getPlateau()[p3.getX()-2][p3.getY()-2]==1))) && ((jeu.getPlateau()[p3.getX()-3][p3.getY()-3]==0) || (jeu.getPlateau()[p3.getX()-3][p3.getY()-3]==3)))) return Possible.DR;
 			else return Possible.IMPOSSIBLE;
 		}
 		else return Possible.IMPOSSIBLE;
 	}
 
-	public Possible move_possible_up_right_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu)
+	public Possible move_possible_up_right_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu,Joueur j)
 	{
 		int x,y;
 		if (p2.getY() > p3.getY()){
@@ -734,13 +723,13 @@ public class Deplacement {
 		}
 		else if ((p1.getX()==p2.getX()+1) && (p1.getY()==p2.getY()-1) && (p1.getX()==p3.getX()+2) && (p1.getY()==p3.getY()-2)) //Les pions sont en diagonales gauches ( de haut en bas ).
 		{
-			if ((jeu.getPlateau()[p3.getX()-1][p3.getY()+1]==0) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p3.getX()-1][p3.getY()+1]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p3.getX()-1][p3.getY()+1]==1))) && ((jeu.getPlateau()[p3.getX()-2][p3.getY()+2]==0) || (jeu.getPlateau()[p3.getX()-2][p3.getY()+2]==3))) || (((/*(player==player1) && */(jeu.getPlateau()[p3.getX()-1][p3.getY()+1]==2) && (jeu.getPlateau()[p3.getX()-2][p3.getY()+2]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p3.getX()-1][p3.getY()+1]==1) && (jeu.getPlateau()[p3.getX()-2][p3.getY()+2]==1))) && ((jeu.getPlateau()[p3.getX()-3][p3.getY()+3]==0) || (jeu.getPlateau()[p3.getX()-3][p3.getY()+3]==3)))) return Possible.DL;
+			if ((jeu.getPlateau()[p3.getX()-1][p3.getY()+1]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p3.getX()-1][p3.getY()+1]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p3.getX()-1][p3.getY()+1]==1))) && ((jeu.getPlateau()[p3.getX()-2][p3.getY()+2]==0) || (jeu.getPlateau()[p3.getX()-2][p3.getY()+2]==3))) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p3.getX()-1][p3.getY()+1]==2) && (jeu.getPlateau()[p3.getX()-2][p3.getY()+2]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p3.getX()-1][p3.getY()+1]==1) && (jeu.getPlateau()[p3.getX()-2][p3.getY()+2]==1))) && ((jeu.getPlateau()[p3.getX()-3][p3.getY()+3]==0) || (jeu.getPlateau()[p3.getX()-3][p3.getY()+3]==3)))) return Possible.DL;
 			else return Possible.IMPOSSIBLE;
 		}
 		else return Possible.IMPOSSIBLE;
 	}
 
-	public Possible move_possible_down_left_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu)
+	public Possible move_possible_down_left_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu, Joueur j)
 	{
 		int x,y;
 		if (p2.getY() > p3.getY()){
@@ -781,13 +770,13 @@ public class Deplacement {
 		}
 		else if ((p1.getX()==p2.getX()-1) && (p1.getY()==p2.getY()+1) && (p1.getX()==p3.getX()-2) && (p1.getY()==p3.getY()+2)) //Les pions sont en diagonales gauches ( de haut en bas ).
 		{
-			if ((jeu.getPlateau()[p3.getX()+1][p3.getY()-1]==0) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p3.getX()+1][p3.getY()-1]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p3.getX()+1][p3.getY()-1]==1))) && ((jeu.getPlateau()[p3.getX()+2][p3.getY()-2]==0) || (jeu.getPlateau()[p3.getX()+2][p3.getY()-2]==3))) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p3.getX()+1][p3.getY()-1]==2) && (jeu.getPlateau()[p3.getX()+2][p3.getY()-2]==2))||(/*(player==player2) && */(jeu.getPlateau()[p3.getX()+1][p3.getY()-1]==1) && (jeu.getPlateau()[p3.getX()+2][p3.getY()-2]==1))) && ((jeu.getPlateau()[p3.getX()+3][p3.getY()-3]==0) || (jeu.getPlateau()[p3.getX()+3][p3.getY()-3]==3)))) return Possible.DL;
+			if ((jeu.getPlateau()[p3.getX()+1][p3.getY()-1]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p3.getX()+1][p3.getY()-1]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p3.getX()+1][p3.getY()-1]==1))) && ((jeu.getPlateau()[p3.getX()+2][p3.getY()-2]==0) || (jeu.getPlateau()[p3.getX()+2][p3.getY()-2]==3))) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p3.getX()+1][p3.getY()-1]==2) && (jeu.getPlateau()[p3.getX()+2][p3.getY()-2]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p3.getX()+1][p3.getY()-1]==1) && (jeu.getPlateau()[p3.getX()+2][p3.getY()-2]==1))) && ((jeu.getPlateau()[p3.getX()+3][p3.getY()-3]==0) || (jeu.getPlateau()[p3.getX()+3][p3.getY()-3]==3)))) return Possible.DL;
 			else return Possible.IMPOSSIBLE;
 		}
 		else return Possible.IMPOSSIBLE;
 	}
 
-	public Possible move_possible_down_right_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu)
+	public Possible move_possible_down_right_3( Pion p1, Pion p2, Pion p3,PlateauAbalone jeu,Joueur j)
 	{
 		int x,y;
 		if (p2.getY() < p3.getY()){
@@ -828,32 +817,32 @@ public class Deplacement {
 		}
 		else if ((p1.getX()==p2.getX()-1) && (p1.getY()==p2.getY()-1) && (p1.getX()==p3.getX()-2) && (p1.getY()==p3.getY()-2)) //Les pions sont en diagonales droites ( de haut en bas ).
 		{
-			if ((jeu.getPlateau()[p3.getX()+1][p3.getY()+1]==0) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p3.getX()+1][p3.getY()+1]==2))||(/*(player==player2) && */(jeu.getPlateau()[p3.getX()+1][p3.getY()+1]==1))) && ((jeu.getPlateau()[p3.getX()+2][p3.getY()+2]==0) || (jeu.getPlateau()[p3.getX()+2][p3.getY()+2]==3))) || (((/*(player==player1) &&*/ (jeu.getPlateau()[p3.getX()+1][p3.getY()+1]==2) && (jeu.getPlateau()[p3.getX()+2][p3.getY()+2]==2))||(/*(player==player2) &&*/ (jeu.getPlateau()[p3.getX()+1][p3.getY()+1]==1) && (jeu.getPlateau()[p3.getX()+2][p3.getY()+2]==1))) && ((jeu.getPlateau()[p3.getX()+3][p3.getY()+3]==0) || (jeu.getPlateau()[p3.getX()+3][p3.getY()+3]==3)))) return Possible.DR;
+			if ((jeu.getPlateau()[p3.getX()+1][p3.getY()+1]==0) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p3.getX()+1][p3.getY()+1]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p3.getX()+1][p3.getY()+1]==1))) && ((jeu.getPlateau()[p3.getX()+2][p3.getY()+2]==0) || (jeu.getPlateau()[p3.getX()+2][p3.getY()+2]==3))) || ((((j.getCouleur()==Color.BLACK) && (jeu.getPlateau()[p3.getX()+1][p3.getY()+1]==2) && (jeu.getPlateau()[p3.getX()+2][p3.getY()+2]==2))||((j.getCouleur()==Color.WHITE) && (jeu.getPlateau()[p3.getX()+1][p3.getY()+1]==1) && (jeu.getPlateau()[p3.getX()+2][p3.getY()+2]==1))) && ((jeu.getPlateau()[p3.getX()+3][p3.getY()+3]==0) || (jeu.getPlateau()[p3.getX()+3][p3.getY()+3]==3)))) return Possible.DR;
 			else return Possible.IMPOSSIBLE;
 		}
 		else return Possible.IMPOSSIBLE;
 	}
 	
-	public void move_3( Pion p1, Pion p2, Pion p3, Direction dir,PlateauAbalone jeu, Possible alignment)
+	public void move_3( Pion p1, Pion p2, Pion p3, Direction dir,PlateauAbalone jeu, Possible alignment,Joueur j)
 	{
 		switch(dir)
 		{
-			case LEFT : move_left_3( p1, p2, p3, jeu,alignment); 
+			case LEFT : move_left_3( p1, p2, p3, jeu,alignment,j); 
 				break;
-			case RIGHT : move_right_3( p1, p2, p3, jeu,alignment); 
+			case RIGHT : move_right_3( p1, p2, p3, jeu,alignment,j); 
 				break;
-			case UPLEFT : move_up_left_3( p1, p2, p3, jeu,alignment); 	
+			case UPLEFT : move_up_left_3( p1, p2, p3, jeu,alignment,j); 	
 				break;
-			case UPRIGHT : move_up_right_3( p1, p2, p3, jeu,alignment); 
+			case UPRIGHT : move_up_right_3( p1, p2, p3, jeu,alignment,j); 
 				break;
-			case DOWNLEFT : move_down_left_3(p1, p2, p3, jeu,alignment); 
+			case DOWNLEFT : move_down_left_3(p1, p2, p3, jeu,alignment,j); 
 				break;
-			case DOWNRIGHT : move_down_right_3( p1, p2, p3, jeu,alignment); 
+			case DOWNRIGHT : move_down_right_3( p1, p2, p3, jeu,alignment,j); 
 				break;
 			default : break;
 		}
 	}
-	public void move_left_3 (Pion p1,Pion p2,Pion p3,PlateauAbalone jeu,Possible alignment)
+	public void move_left_3 (Pion p1,Pion p2,Pion p3,PlateauAbalone jeu,Possible alignment,Joueur j)
 	{
 		int x,y;
 		if (alignment != Possible.LINE)
@@ -898,8 +887,7 @@ public class Deplacement {
 			{
 				if ((jeu.getPlateau()[p3.getX()][p3.getY()-4] != 0) && (jeu.getPlateau()[p3.getX()][p3.getY()-6] == 3))
 				{
-					/*score[current_player-1]++;
-					display_pawn_eject(current_player, score);*/
+					j.setScore(j.getScore()+1);
 				}
 				else if (jeu.getPlateau()[p3.getX()][p3.getY()-4] == 0)
 				{
@@ -915,7 +903,7 @@ public class Deplacement {
 		}
 	}
 	
-	public void move_right_3 (Pion p1,Pion p2,Pion p3,PlateauAbalone jeu,Possible alignment)
+	public void move_right_3 (Pion p1,Pion p2,Pion p3,PlateauAbalone jeu,Possible alignment,Joueur j)
 	{
 		int x,y;
 		if (alignment != Possible.LINE)
@@ -959,8 +947,7 @@ public class Deplacement {
 			{
 				if ((jeu.getPlateau()[p3.getX()][p3.getY()+4] != 0) && (jeu.getPlateau()[p3.getX()][p3.getY()+6] == 3))
 				{
-					/*score[current_player-1]++;
-					display_pawn_eject(current_player, score);*/
+					j.setScore(j.getScore()+1);
 				}
 				else if (jeu.getPlateau()[p3.getX()][p3.getY()+4] == 0)
 				{
@@ -976,7 +963,7 @@ public class Deplacement {
 		}
 	}
 	
-	public void move_up_left_3 (Pion p1, Pion p2,Pion p3,PlateauAbalone jeu,Possible alignment)
+	public void move_up_left_3 (Pion p1, Pion p2,Pion p3,PlateauAbalone jeu,Possible alignment,Joueur j)
 	{
 		int x,y;
 		if (alignment==Possible.LINE || alignment==Possible.DL) //Cas où les pions sont sur la même ligne, ou deplacement simple (pas sumito)
@@ -1021,8 +1008,7 @@ public class Deplacement {
 			{
 				if ((jeu.getPlateau()[p3.getX()-2][p3.getY()-2] != 0) && (jeu.getPlateau()[p3.getX()-3][p3.getY()-3] == 3))
 				{
-					/*score[current_player-1]++;  
-					display_pawn_eject(current_player, score);*/
+					j.setScore(j.getScore()+1);
 				}
 				else if (jeu.getPlateau()[p3.getX()-2][p3.getY()-2] == 0)
 				{
@@ -1038,7 +1024,7 @@ public class Deplacement {
 		}
 	}
 	
-	public void move_up_right_3 (Pion p1, Pion p2,Pion p3,PlateauAbalone jeu,Possible alignment)
+	public void move_up_right_3 (Pion p1, Pion p2,Pion p3,PlateauAbalone jeu,Possible alignment,Joueur j)
 	{
 		int x,y;
 		if (alignment==Possible.LINE || alignment==Possible.DR) //Cas où les pions sont sur la même ligne, ou deplacement simple (pas sumito)
@@ -1079,8 +1065,7 @@ public class Deplacement {
 			{
 				if ((jeu.getPlateau()[p3.getX()-2][p3.getY()+2] != 0) && (jeu.getPlateau()[p3.getX()-3][p3.getY()+3] == 3))
 				{
-					/*score[current_player-1]++;  
-					display_pawn_eject(current_player, score);*/
+					j.setScore(j.getScore()+1);
 				}
 				else if (jeu.getPlateau()[p3.getX()-2][p3.getY()+2] == 0)
 				{
@@ -1096,7 +1081,7 @@ public class Deplacement {
 		}
 	}
 	
-	public void move_down_left_3 (Pion p1, Pion p2,Pion p3,PlateauAbalone jeu, Possible alignment)
+	public void move_down_left_3 (Pion p1, Pion p2,Pion p3,PlateauAbalone jeu, Possible alignment,Joueur j)
 	{
 		int x,y;
 		if (alignment==Possible.LINE || alignment==Possible.DR) //Cas où les pions sont sur la même ligne, ou deplacement simple (pas sumito)
@@ -1138,8 +1123,7 @@ public class Deplacement {
 			{
 				if ((jeu.getPlateau()[p3.getX()+2][p3.getY()-2] != 0) && (jeu.getPlateau()[p3.getX()+3][p3.getY()-3] == 3))
 				{
-					/*score[current_player-1]++;
-					display_pawn_eject(current_player, score);*/
+					j.setScore(j.getScore()+1);
 				}
 				else if (jeu.getPlateau()[p3.getX()+2][p3.getY()-2] == 0)
 				{
@@ -1155,7 +1139,7 @@ public class Deplacement {
 		}
 	}
 
-	public void move_down_right_3 (Pion p1, Pion p2,Pion p3,PlateauAbalone jeu,Possible alignment)
+	public void move_down_right_3 (Pion p1, Pion p2,Pion p3,PlateauAbalone jeu,Possible alignment,Joueur j)
 	{
 		int x,y;
 		if (alignment==Possible.LINE || alignment==Possible.DL) //Cas où les pions sont sur la même ligne, ou deplacement simple (pas sumito)
@@ -1196,8 +1180,7 @@ public class Deplacement {
 			{
 				if ((jeu.getPlateau()[p3.getX()+2][p3.getY()+2] != 0) && (jeu.getPlateau()[p3.getX()+3][p3.getY()+3] == 3))
 				{
-					/*score[current_player-1]++; 
-					display_pawn_eject(current_player, score);*/
+					j.setScore(j.getScore()+1);
 				}
 				else if (jeu.getPlateau()[p3.getX()+2][p3.getY()+2] == 0)
 				{
