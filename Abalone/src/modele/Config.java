@@ -16,5 +16,15 @@ public class Config {
 		DR,
 		DL
 	}
-		
+	
+	public enum PositionDepart {
+		STANDARD,
+		DAISY,
+		DOMINATION,
+		FACETOFACE,
+		SNAKE,
+		ALLIANCE,
+		LABYRINTHE,
+		RANDOM
+	}
 }

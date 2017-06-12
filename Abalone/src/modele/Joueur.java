@@ -7,7 +7,7 @@ public class Joueur {
 	private int score;
 	private String nom;
 	private Color couleur;
-
+	
 	
 	public Joueur(String nom, Color couleur){
 		this.score=0;
