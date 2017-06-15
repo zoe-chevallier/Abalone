@@ -4,7 +4,7 @@ public class Pion {
 	private int x; //Corresponds aux coordonnées
 	private int y;
 
-	@Override
+	
 	public String toString() {
 		return "Pion [x=" + x + ", y=" + y + "]";
 	}
