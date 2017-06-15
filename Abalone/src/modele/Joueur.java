@@ -39,5 +39,19 @@ public class Joueur {
 		this.couleur=couleur;
 	}
 	
-	
+	public void calculeScore(PlateauAbalone jeu){
+		int cpt = 0;
+		int opponent;
+		if (couleur == Color.BLACK)
+			opponent =1;
+		else 
+			opponent =2;
+		for (int i=0;i<11;i++){
+			for (int j=0;j<21;j++){
+				if (jeu.getPlateau()[i][j] == opponent)
+					cpt++;
+			}	
+		}
+		score = 14-cpt;
+	}
 }

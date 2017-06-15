@@ -5,6 +5,7 @@ import modele.Config.PositionDepart;
 
 public class PlateauAbalone {
 	private int[][] plateau;
+	private ArrayList<Joueur> listeJoueurs;
 	
 	public PlateauAbalone(){
 		int tableau[][] =   {{5,5,5,5,5,3,5,3,5,3,5,3,5,3,5,3,5,5,5,5,5},
@@ -19,10 +20,34 @@ public class PlateauAbalone {
 							{5,5,5,5,3,5,1,5,1,5,1,5,1,5,1,5,3,5,5,5,5},
 							{5,5,5,5,5,3,5,3,5,3,5,3,5,3,5,3,5,5,5,5,5}};
 		
-		this.plateau = tableau;		
+		this.plateau = tableau;	
+		listeJoueurs = new ArrayList<Joueur>();
 	}
 	
-	public PlateauAbalone(PositionDepart pos){
+	public PlateauAbalone(Pion p1, Pion p2, Pion p3){
+		int tableau[][] = {{5,5,5,5,5,3,5,3,5,3,5,3,5,3,5,3,5,5,5,5,5},
+						{5,5,5,5,3,5,0,5,0,5,0,5,0,5,0,5,3,5,5,5,5},
+						{5,5,5,3,5,0,5,0,5,0,5,0,5,0,5,0,5,3,5,5,5},
+						{5,5,3,5,0,5,0,5,0,5,0,5,0,5,0,5,0,5,3,5,5},
+						{5,3,5,0,5,0,5,0,5,0,5,0,5,0,5,0,5,0,5,3,5},
+						{3,5,0,5,0,5,0,5,0,5,0,5,0,5,0,5,0,5,0,5,3},
+						{5,3,5,0,5,0,5,0,5,0,5,0,5,0,5,0,5,0,5,3,5},
+						{5,5,3,5,0,5,0,5,0,5,0,5,0,5,0,5,0,5,3,5,5},
+						{5,5,5,3,5,0,5,0,5,0,5,0,5,0,5,0,5,3,5,5,5},
+						{5,5,5,5,3,5,0,5,0,5,0,5,0,5,0,5,3,5,5,5,5},
+						{5,5,5,5,5,3,5,3,5,3,5,3,5,3,5,3,5,5,5,5,5}};
+		this.plateau = tableau;
+		if (p1.getX() != 0)
+			plateau[p1.getX()][p1.getY()] = 1;
+		if (p2.getX() != 0)
+			plateau[p2.getX()][p2.getY()] = 1;
+		if (p3.getX() != 0)
+			plateau[p3.getX()][p3.getY()] = 1;
+		
+		
+	}
+	
+	public PlateauAbalone(PositionDepart pos, Joueur j1, Joueur j2){
 		switch (pos){
 		case STANDARD : 
 			int tab_standard[][] =   {{5,5,5,5,5,3,5,3,5,3,5,3,5,3,5,3,5,5,5,5,5},
@@ -127,8 +152,16 @@ public class PlateauAbalone {
 			this.plateau = tab_random;
 			break;	
 		}
+		listeJoueurs = new ArrayList<Joueur>();
+		listeJoueurs.add(j1);
+		listeJoueurs.add(j2);
 	}
 	
+	public void affiche_listeJoueurs(){
+		for (Joueur j : listeJoueurs){
+			System.out.println(j.getNom());
+		}
+	}
 	public int[][] random(){
 		int tab_random[][] = {{5,5,5,5,5,3,5,3,5,3,5,3,5,3,5,3,5,5,5,5,5},
 							   {5,5,5,5,3,5,0,5,0,5,0,5,0,5,0,5,3,5,5,5,5},
@@ -147,12 +180,10 @@ public class PlateauAbalone {
 				int cpt = 0;
 				int alea = (int) ((Math.random() * 39) + 1);
 				boolean ajout = false;
-				System.out.println("alea =" + alea);
 				for (int x=0;x<11;x++){
 					for (int y=0;y<21;y++){
 						if (tab_random[x][y] == 0 && ajout==false){
 							if (cpt == alea){
-								System.out.println(tab_random[x][y] + "cpt=" + cpt);
 								tab_random[x][y] = j; //On associe la valeur du joueur 1 ou du joueur 2
 								ajout = true;
 							}
@@ -204,6 +235,14 @@ public class PlateauAbalone {
 			}
 			System.out.println();
 		}
+	}
+	
+	public int is_victory(int aEjecter){
+		for (int i=1;i<=2;i++){
+			if (listeJoueurs.get(i).getScore() == aEjecter) 	
+				return i; //Retourne le nombre du joueur qui a gagné
+		}
+		return 0; //Renvoie 0 quand il n'y a pas victoire
 	}
 	
 	public int[][] getPlateau(){

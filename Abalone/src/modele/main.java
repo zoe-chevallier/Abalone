@@ -7,17 +7,24 @@ import modele.Config.PositionDepart;
 public class main {
 
 	public static void main(String[] args) {
-		
-		PlateauAbalone jeu = new PlateauAbalone(PositionDepart.RANDOM);
-		Deplacement dep = new Deplacement();
 		Joueur j1 = new Joueur("Zoé", Color.BLACK);
+		Joueur j2 = new Joueur("Baptiste",Color.WHITE);
+		PlateauAbalone jeu = new PlateauAbalone(PositionDepart.STANDARD,j1,j2);
+		Deplacement dep = new Deplacement();
+		Possible pos;
+		Pion p1 = new Pion(9,10);
+		Pion p2 = new Pion(0,0);
+		Pion p3 = new Pion(0,0);
+		
+		jeu.affichePlateau();
+		/*pos = dep.move_possible(p1, p2, p3, Direction.LEFT, jeu.getPlateau(), j1);
+		System.out.println(pos);
+		if (pos != Possible.IMPOSSIBLE)
+			dep.move(p1, p2, p3, Direction.LEFT, jeu.getPlateau(), pos, j1);*/
 		
 		
-		/*Pion p1 = new Pion(3,8);
-		Pion p2 = new Pion(3,10);
-		jeu.affichePlateau();
-		dep.move_left_2(p1,p2,jeu,Possible.LINE,j1);*/
-		jeu.affichePlateau();
+		Ia ia = new Ia(jeu);
+		ia.test_ia();
 		
 	}
 
