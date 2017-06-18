@@ -1,10 +1,7 @@
 package modele;
 
 public class GroupePions {
-	@Override
-	public String toString() {
-		return "GroupePions [p1=" + p1.toString() + ", p2=" + p2.toString() + ", p3=" + p3.toString() + "]";
-	}
+	
 	private Pion p1;
 	private Pion p2;
 	private Pion p3;

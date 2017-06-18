@@ -214,7 +214,7 @@ public class Deplacement {
 		}
 		if (p1.getX()==p2.getX()) //Les pions sont sur la même lignes, on verrifie donc s'il y a un sumito ou si la case à gauche est vide.
 		{
-			if ((tab[p1.getX()][p2.getY()-2]==0) || ((((joueur==1) && (tab[p1.getX()][p2.getY()-2]==2))||((joueur==2) && (tab[p1.getX()][p2.getY()-2]==1))) && ((tab[p1.getX()][p2.getY()-4]==0) || (tab[p1.getX()][p2.getY()-4]==3))) ) return Possible.LINE;
+			if ((tab[p2.getX()][p2.getY()-2]==0) || ((((joueur==1) && (tab[p2.getX()][p2.getY()-2]==2))||((joueur==2) && (tab[p2.getX()][p2.getY()-2]==1))) && ((tab[p2.getX()][p2.getY()-4]==0) || (tab[p1.getX()][p2.getY()-4]==3))) ) return Possible.LINE;
 			else return Possible.IMPOSSIBLE;
 		}
 		else if (((p1.getX()==p2.getX()-1) && (p1.getY()==p2.getY()+1)) || ((p1.getX()==p2.getX()+1) && (p1.getY()==p2.getY()-1))) //Les pions sont en diagonales gauches, on verrifie donc que les 3 cases à gauche sont vides.
@@ -232,7 +232,7 @@ public class Deplacement {
 
 	public Possible move_possible_right_2(Pion p1,Pion p2,int tab[][],int joueur)
 	{
-		if (p1.getY() > p2.getY()){
+		if (p2.getY() < p1.getY()){
 			int x=p1.getX();
 			int y=p1.getY();
 			p1.setX(p2.getX());
@@ -260,7 +260,7 @@ public class Deplacement {
 
 	public Possible move_possible_up_left_2( Pion p1, Pion p2,int tab[][],int joueur)
 	{
-		if (p1.getY() > p2.getY()){
+		if (p1.getY() < p2.getY()){
 			int x=p1.getX();
 			int y=p1.getY();
 			p1.setX(p2.getX());
@@ -288,7 +288,7 @@ public class Deplacement {
 
 	public Possible move_possible_up_right_2( Pion p1, Pion p2,int tab[][], int joueur)
 	{
-		if (p1.getY() < p2.getY()){
+		if (p2.getY() < p1.getY()){
 			int x=p1.getX();
 			int y=p1.getY();
 			p1.setX(p2.getX());
@@ -344,7 +344,7 @@ public class Deplacement {
 
 	public Possible move_possible_down_right_2( Pion p1, Pion p2,int tab[][],int joueur)
 	{
-		if (p1.getY() > p2.getY()){
+		if (p2.getY() < p1.getY()){
 			int x=p1.getX();
 			int y=p1.getY();
 			p1.setX(p2.getX());
@@ -465,7 +465,7 @@ public class Deplacement {
 		}
 		else //Cas diagonales (possible sumito)
 		{
-			if (p2.getX() < p1.getX())
+			if (p2.getY() < p1.getY())
 			{
 				x=p1.getX(); 	
 				y=p1.getY();
@@ -531,7 +531,7 @@ public class Deplacement {
 		}
 		else //Cas diagonales (possible sumito)
 		{
-			if (p1.getX() < p2.getX())
+			if (p2.getY() < p1.getY())
 			{
 				x=p1.getX(); 	y=p1.getY();
 				p1.setX(p2.getX());  p1.setY(p2.getY());
@@ -649,7 +649,7 @@ public class Deplacement {
 	public Possible move_possible_right_3( Pion p1, Pion p2, Pion p3,int tab[][],int joueur)
 	{
 		int x,y;
-		if (p2.getY() > p3.getY()){
+		if (p3.getY() < p2.getY()){
 			x=p3.getX(); 	
 			y=p3.getY();
 			p3.setX(p2.getX());
@@ -657,8 +657,8 @@ public class Deplacement {
 			p2.setX(x);
 			p2.setY(y);
 		}
-		if (p1.getY() > p2.getY()){
-			if (p1.getY() > p3.getY()){
+		if (p2.getY() < p1.getY()){
+			if (p3.getY() < p1.getY()){
 				x=p1.getX(); 	
 				y=p1.getY();
 				p1.setX(p3.getX());
@@ -743,7 +743,7 @@ public class Deplacement {
 	public Possible move_possible_up_right_3( Pion p1, Pion p2, Pion p3,int tab[][],int joueur)
 	{
 		int x,y;
-		if (p2.getY() > p3.getY()){
+		if (p3.getY() < p2.getY()){
 			x=p3.getX(); 	
 			y=p3.getY();
 			p3.setX(p2.getX());
@@ -751,8 +751,8 @@ public class Deplacement {
 			p2.setX(x);
 			p2.setY(y);
 		}
-		if (p1.getY() > p2.getY()){
-			if (p1.getY() > p3.getY()){
+		if (p2.getY() < p1.getY()){
+			if (p3.getY() < p1.getY()){
 				x=p1.getX(); 	
 				y=p1.getY();
 				p1.setX(p3.getX());
@@ -790,7 +790,7 @@ public class Deplacement {
 	public Possible move_possible_down_left_3( Pion p1, Pion p2, Pion p3,int tab[][], int joueur)
 	{
 		int x,y;
-		if (p2.getY() > p3.getY()){
+		if (p2.getY() < p3.getY()){
 			x=p3.getX(); 	
 			y=p3.getY();
 			p3.setX(p2.getX());
@@ -798,8 +798,8 @@ public class Deplacement {
 			p2.setX(x);
 			p2.setY(y);
 		}
-		if (p1.getY() > p2.getY()){
-			if (p1.getY() > p3.getY()){
+		if (p1.getY() < p2.getY()){
+			if (p1.getY() < p3.getY()){
 				x=p1.getX(); 	
 				y=p1.getY();
 				p1.setX(p3.getX());
@@ -837,7 +837,7 @@ public class Deplacement {
 	public Possible move_possible_down_right_3( Pion p1, Pion p2, Pion p3,int tab[][],int joueur)
 	{
 		int x,y;
-		if (p2.getY() < p3.getY()){
+		if (p3.getY() < p2.getY()){
 			x=p3.getX(); 	
 			y=p3.getY();
 			p3.setX(p2.getX());
@@ -845,8 +845,8 @@ public class Deplacement {
 			p2.setX(x);
 			p2.setY(y);
 		}
-		if (p1.getY() < p2.getY()){
-			if (p1.getY() < p3.getY()){
+		if (p2.getY() < p1.getY()){
+			if (p3.getY() < p1.getY()){
 				x=p1.getX(); 	
 				y=p1.getY();
 				p1.setX(p3.getX());
@@ -875,6 +875,7 @@ public class Deplacement {
 		}
 		else if ((p1.getX()==p2.getX()-1) && (p1.getY()==p2.getY()-1) && (p1.getX()==p3.getX()-2) && (p1.getY()==p3.getY()-2)) //Les pions sont en diagonales droites ( de haut en bas ).
 		{
+			
 			if ((tab[p3.getX()+1][p3.getY()+1]==0) || ((((joueur==1) && (tab[p3.getX()+1][p3.getY()+1]==2))||((joueur==2) && (tab[p3.getX()+1][p3.getY()+1]==1))) && ((tab[p3.getX()+2][p3.getY()+2]==0) || (tab[p3.getX()+2][p3.getY()+2]==3))) || ((((joueur==1) && (tab[p3.getX()+1][p3.getY()+1]==2) && (tab[p3.getX()+2][p3.getY()+2]==2))||((joueur==2) && (tab[p3.getX()+1][p3.getY()+1]==1) && (tab[p3.getX()+2][p3.getY()+2]==1))) && ((tab[p3.getX()+3][p3.getY()+3]==0) || (tab[p3.getX()+3][p3.getY()+3]==3)))) return Possible.DR;
 			else return Possible.IMPOSSIBLE;
 		}

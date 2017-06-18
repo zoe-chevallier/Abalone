@@ -24,19 +24,16 @@ public class Ia {
 						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 		valeurPlateau = tab;
 		plateauJeu = jeu.getPlateau();
-		Pion p1 = new Pion(0,0);
-		Pion p2 = new Pion(0,0);
-		Pion p3 = new Pion(0,0);
 	}
 	
 	public int[][] getValeurPlateau(){
 		return valeurPlateau;
 	}
 	
-	public int value_board (int tab[][],Color couleur){
+	public int value_board (int tab[][],int joueur){
 		int of,def;
 		int val = 0;
-		if (couleur == Color.BLACK){
+		if (joueur == 1){
 			of=1;	def=2;
 		}
 		else{
@@ -65,19 +62,14 @@ public class Ia {
 		return regroupementPions;
 	}
 	
-	public ArrayList<GroupePions> pions_together(ArrayList<GroupePions> regroupementPions,Color couleur, int l, int c){
+	public ArrayList<GroupePions> pions_together(ArrayList<GroupePions> regroupementPions,int joueur, int l, int c){
 		
 		Pion p1 = new Pion(l,c);
-		regroupementPions = add_liste(regroupementPions,p1,new Pion(0,0),new Pion(0,0));
-		int joueur ;
-		if (couleur == Color.BLACK)
-			joueur = 1;
-		else
-			joueur = 2;
-		
+		regroupementPions = add_liste(regroupementPions,p1,null,null);
+				
 		if (plateauJeu[l][c+2] == joueur){ //Cas en ligne
 			Pion p2 = new Pion(l,c+2);
-			regroupementPions = add_liste(regroupementPions,p1,p2,new Pion(0,0));
+			regroupementPions = add_liste(regroupementPions,p1,p2,null);
 			if (plateauJeu[l][c+4] == joueur){
 				Pion p3 = new Pion(l,c+4);
 				regroupementPions = add_liste(regroupementPions,p1,p2,p3);
@@ -85,7 +77,7 @@ public class Ia {
 		}
 		if (plateauJeu[l+1][c-1] == joueur){ //Cas DL
 			Pion p4 = new Pion(l+1,c+1);
-			regroupementPions = add_liste(regroupementPions,p1,p4,new Pion(0,0));
+			regroupementPions = add_liste(regroupementPions,p1,p4,null);
 			if (plateauJeu[l+2][c-2] == joueur){
 				Pion p5 = new Pion(l+2,c+2);
 				regroupementPions = add_liste(regroupementPions,p1,p4,p5);
@@ -94,7 +86,7 @@ public class Ia {
 		
 		if (plateauJeu[l+1][c+1] == joueur){ //Cas DR
 			Pion p6 = new Pion(l+1,c+1);
-			regroupementPions = add_liste(regroupementPions,p1,p6,new Pion(0,0));
+			regroupementPions = add_liste(regroupementPions,p1,p6,null);
 			if (plateauJeu[l+2][c+2] == joueur){
 				Pion p7 = new Pion(l+2,c+2);
 				regroupementPions = add_liste(regroupementPions,p1,p6,p7);
@@ -104,18 +96,12 @@ public class Ia {
 	}
 
 	
-	public ArrayList<GroupePions> create_depPossibles(Color couleur){
+	public ArrayList<GroupePions> create_depPossibles(int joueur){
 		ArrayList<GroupePions> regroupementPions = new ArrayList<GroupePions>();
-		int joueur;
-		if (couleur == Color.BLACK){
-			joueur = 1;
-		}
-		else
-			joueur = 2;
 		for (int l=0;l<11;l++){
 			for (int c=0;c<21;c++){
 				if (plateauJeu[l][c] == joueur){
-					pions_together(regroupementPions,couleur,l,c);
+					pions_together(regroupementPions,joueur,l,c);
 				}
 			}
 		}
@@ -142,50 +128,50 @@ public class Ia {
 			return b;
 	}
 	
-	public int Min(int tableau[][],int depth, int alpha, int beta, Color couleur){
+	public int Min(int tableau[][],int depth, int alpha, int beta, int joueur){
 		
 		ArrayList<GroupePions> regroupementPions = new ArrayList<GroupePions>();
-		regroupementPions = create_depPossibles(couleur);
+		regroupementPions = create_depPossibles(joueur);
 		Deplacement dep = new Deplacement();
 		int Min_val=10000;
 		Possible result;
 		Direction dir = null;
-		Color opponent;
-		if (couleur == Color.BLACK)
-			opponent = Color.WHITE;
+		int opponent ;
+		if (joueur == 1)
+			opponent = 2;
 		else
-			opponent = Color.BLACK;
+			opponent = 1;
 		int tab[][] = copy_tab(tableau);
 		
 		if ((depth == 0) ||is_victory(tab))
-			return value_board(tab,couleur);
+			return value_board(tab,joueur);
 		
 		for (GroupePions gpe : regroupementPions){
 			for (int i=0;i<6;i++){
 				switch (i){
 				case 0 : 
 					dir = Direction.LEFT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 1 : 
 					dir = Direction.RIGHT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 2 : 
 					dir = Direction.UPLEFT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 3 : 
 					dir = Direction.UPRIGHT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 4 : 
 					dir = Direction.DOWNLEFT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 5 : 
 					dir = Direction.DOWNRIGHT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				default : 
 					result = Possible.IMPOSSIBLE;
@@ -206,15 +192,15 @@ public class Ia {
 		return Min_val;
 	}
 	
-	public int Max(int tableau[][],int depth, int alpha, int beta, Color couleur){
+	public int Max(int tableau[][],int depth, int alpha, int beta, int joueur){
 		ArrayList<GroupePions> regroupementPions = new ArrayList<GroupePions>();
-		regroupementPions = create_depPossibles(couleur);
+		regroupementPions = create_depPossibles(joueur);
 		
-		Color opponent;
-		if (couleur == Color.BLACK)
-			opponent = Color.WHITE;
+		int opponent;
+		if (joueur == 1)
+			opponent = 2;
 		else
-			opponent = Color.BLACK;
+			opponent = 1;
 		
 		Deplacement dep = new Deplacement();
 		int Max_val= -10000;
@@ -223,7 +209,7 @@ public class Ia {
 		int tab[][] = copy_tab(tableau);
 
 		if ((depth == 0) ||is_victory(tab))
-			return value_board(tab,couleur);
+			return value_board(tab,joueur);
 		
 		for (GroupePions gpe : regroupementPions){
 			for (int i=0;i<6;i++){
@@ -231,27 +217,27 @@ public class Ia {
 				switch (i){
 				case 0 : 
 					dir = Direction.LEFT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 1 : 
 					dir = Direction.RIGHT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 2 : 
 					dir = Direction.UPLEFT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 3 : 
 					dir = Direction.UPRIGHT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 4 : 
 					dir = Direction.DOWNLEFT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 5 : 
 					dir = Direction.DOWNRIGHT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				default : 
 					result = Possible.IMPOSSIBLE;
@@ -282,9 +268,9 @@ public class Ia {
 		return tab;
 	}
 	
-	public void alpha_beta(Color couleur,int depth){
+	public void alpha_beta(int joueur,int depth){
 		ArrayList<GroupePions> regroupementPions = new ArrayList<GroupePions>();
-		regroupementPions = create_depPossibles(couleur);
+		regroupementPions = create_depPossibles(joueur);
 		
 		Deplacement dep= new Deplacement();
 		int alpha = -10000;
@@ -293,44 +279,44 @@ public class Ia {
 		Possible result = null;
 		Direction dir = null;
 		Direction result_dir = null;
-		Color opponent;
-		if (couleur == Color.BLACK)
-			opponent = Color.WHITE;
+		int opponent;
+		if (joueur == 1)
+			opponent = 2;
 		else
-			opponent = Color.BLACK;
+			opponent = 1;
 		
 		int tab[][] = copy_tab(plateauJeu);
 		
-		Pion pos1 = new Pion(0,0);
-		Pion pos2 = new Pion(0,0);
-		Pion pos3 = new Pion(0,0);
+		Pion pos1 = null;
+		Pion pos2 = null;
+		Pion pos3 = null;
 		
 		for (GroupePions gpe : regroupementPions){
 			for (int i=0;i<6;i++){					
 				switch (i){
 				case 0 : 
 					dir = Direction.LEFT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 1 : 
 					dir = Direction.RIGHT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 2 : 
 					dir = Direction.UPLEFT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 3 : 
 					dir = Direction.UPRIGHT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 4 : 
 					dir = Direction.DOWNLEFT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				case 5 : 
 					dir = Direction.DOWNRIGHT;
-					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,couleur);
+					result = dep.move_possible(gpe.getP1(), gpe.getP2(),gpe.getP3(),dir,tab,joueur);
 					break;
 				default : 
 					result = Possible.IMPOSSIBLE;
@@ -347,23 +333,42 @@ public class Ia {
 				if (tmp>Max_val){
 					Max_val = tmp;
 					result_dir = dir;
-					pos1.setX(gpe.getP1().getX());
-					pos1.setY(gpe.getP1().getY());
-					pos2.setX(gpe.getP2().getX());
-					pos2.setY(gpe.getP2().getY());
-					pos3.setX(gpe.getP3().getX());
-					pos3.setY(gpe.getP3().getY());		
+					if (pos1 == null){
+						pos1 = new Pion(gpe.getP1().getX(),gpe.getP1().getY());
+					}
+					else {
+						pos1.setX(gpe.getP1().getX());
+						pos1.setY(gpe.getP1().getY());
+					}
+					if (gpe.getP2() != null){
+						if (pos2 == null){
+							pos2 = new Pion(gpe.getP2().getX(),gpe.getP2().getY()); 
+						}
+						else{
+							pos2.setX(gpe.getP2().getX());
+							pos2.setY(gpe.getP2().getY());
+						}	
+					}
+					if (gpe.getP3() != null){
+						if (pos3 == null){
+							pos3 = new Pion(gpe.getP3().getX(),gpe.getP3().getY()); 
+						}
+						else{
+							pos3.setX(gpe.getP3().getX());
+							pos3.setY(gpe.getP3().getY());
+						}	
+					}	
 				}
 				tab = copy_tab(plateauJeu);
 			}
 		}
 		GroupePions gpe = new GroupePions(pos1,pos2,pos3);
-		System.out.println("Direction :" + result_dir + "  " + gpe.toString() );
-		if (pos3.getX() == 0 && pos2.getX() == 0)
+		System.out.println("Direction :" + result_dir + "   Joueur " + joueur + "   possible : " + result);
+		if (pos3 == null && pos2 == null)
 			dep.move_1(pos1,result_dir,plateauJeu);
-		else if (pos3.getX() == 0)
+		else if (pos3 == null)
 			dep.move_2(pos1,pos2,result_dir,plateauJeu,result);
-		else 
+		else
 			dep.move_3(pos1,pos2,pos3,result_dir,plateauJeu,result);
 		
 	}
@@ -406,9 +411,9 @@ public class Ia {
 	public void test_ia(){
 		int tab[][]=plateauJeu;
 		while (!is_victory(tab)){
-			alpha_beta(Color.BLACK,2);
+			alpha_beta(1,2);
 			affichePlateau();
-			alpha_beta(Color.WHITE,2);
+			alpha_beta(2,2);
 			affichePlateau();
 		}
 	}
