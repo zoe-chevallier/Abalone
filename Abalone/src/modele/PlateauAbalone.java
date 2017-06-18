@@ -288,16 +288,16 @@ public class PlateauAbalone {
 		return tab_random;
 	}
 	
-	public int[][] ajoutObstacles (int nb, int tab[][]){
-		for (int i=0; i<nb; i++){
+	public int[][] ajoutObstacles (int tab[][]){
+		for (int i=0; i<5; i++){
 			int cpt = 0;
-			int alea = (int) ((Math.random() * (34-nb)) + 1);
+			int alea = (int) ((Math.random() * (29)) + 1);
 			boolean ajout = false;
 			for (int x=0;x<11;x++){
 				for (int y=0;y<21;y++){
 					if (tab[x][y] == 0 ){
 						if (cpt == alea && ajout == false){
-							tab[x][y] = 4; //Correspond à un mur
+							tab[x][y] = 4; //Correspond Ã  un mur
 							ajout = true;
 						}
 						else 
@@ -334,7 +334,7 @@ public class PlateauAbalone {
 	public int is_victory(int aEjecter){
 		for (int i=1;i<=2;i++){
 			if (listeJoueurs.get(i).getScore() == aEjecter) 	
-				return i; //Retourne le nombre du joueur qui a gagné
+				return i; //Retourne le nombre du joueur qui a gagnÃ©
 		}
 		return 0; //Renvoie 0 quand il n'y a pas victoire
 	}
