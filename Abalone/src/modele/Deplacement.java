@@ -6,9 +6,9 @@ import modele.Config.Possible;
 
 public class Deplacement {
 	public int number_pions(Pion p1,Pion p2,Pion p3){
-		if (p2.getX() == 0 && p3.getX() == 0)
+		if (p2 == null && p3 == null)
 			return 1;
-		else if (p3.getX() == 0)
+		else if (p3 == null)
 			return 2;
 		else 
 			return 3;
